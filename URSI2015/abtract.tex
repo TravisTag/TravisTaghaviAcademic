@@ -1,0 +1,27 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{URSI 2015 Abstract}
+\author{Travis Taghavi }
+\date{September 2015}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+
+\begin{document}
+
+\maketitle
+
+This research initiative looks to develop a framework to establish the role and effectiveness of reconfigurable antennas and machine learning in inferring relationships among wireless devices. Our setting involves a group of Wi-Fi antennas gathering metadata about wireless devices within their respective ranges. This is done using packet sniffing by setting the network interface cards to promiscuous mode. The metadata includes a unique media access control (MAC) address for the sender/recipient of packets. Along with a timestamp, this information is stored in a centralized database to be analyzed.
+
+\bigskip
+
+The main assumption for this work is that close spatiotemporal proximity is a good indicator of social interaction, under normal conditions. Essentially, devices that are seen to be physically close at the same time are likely owned by people that are somehow related. In this setup, devices are considered to be spatiotemporally close if they are seen by the same antenna during a small time period. It follows that the size and shape of the antenna footprint will have an effect on the quality and quantity of the geographical information. At the extreme, an omnidirectional antenna that can monitor the entire test-area will give no useful geographical information. Conversely, an antenna with an extremely small footprint will localize any devices it sees to a specific point, but will gather much less information compared to a larger footprint. Though it is unclear what the ideal antenna pattern would be for this task, it is reasonable to assume that it will depend on certain environmental factors, e.g. density of devices, size of the monitored area, relationship density among devices, etc. Based on this second assumption, this initiative will study the role of reconfigurable antennas in creating a system that is adaptable to different environments. Machine learning will be implemented to identify environmental conditions in real time and reconfigure the antennas accordingly.
+
+\bigskip
+
+For mathematical analysis and simulations, we simplify a room of people to be a 2-dimensional grid. Motion of the devices is modeled as a random walk, which reflects at the boundaries of the area. When a device finds a (pre-determined) related device in close proximity, they will both pause for a random amount of time proportional to their "connectedness". Antenna footprints are modeled as connected subsets of the grid, such that devices located within their subset are visible to the antenna, and devices outside of the subset are invisible.
+
+
+\end{document}
+
