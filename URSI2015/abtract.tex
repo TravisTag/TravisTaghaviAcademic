@@ -1,24 +1,28 @@
-\documentclass{article}
-\usepackage[utf8]{inputenc}
+\documentclass{ursi2015}
+\special{papersize=8.5in,11in}
 
-\title{URSI 2015 Abstract}
-\author{Travis Taghavi}
-\date{September 2015}
+\title{Reconfigurable Antennas and Machine Learning for Inference based on Wi-Fi Metadata}
 
-\usepackage{natbib}
-\usepackage{graphicx}
+%% the organization option [orgN] associates the authors with his
+%% proper address
+\author[org1]{Travis Taghavi}
+\author[org1]{Jean-Francois Chamberland}
+\author[org1]{Gregory Huff}
+
+%% each address must have a unique identifier in the option field
+\address[org1]{Department of Electrical and Computer Engineering, Texas A\&M University, College Station, TX, 77843, http://ece.tamu.edu}
+
 
 \begin{document}
-
-\maketitle
+\begin{abstract}
 
 This research project seeks to develop a framework to establish the role and effectiveness of reconfigurable antennas and machine learning in inferring physical relationships among wireless devices.
-Our problem setting involves a group of Wi-Fi sensors gathering metadata about wireless devices within their respective ranges.
-Data collection is performed using packet sniffing by setting the network interface cards of sensors to monitor mode.
+Our problem setting involves a group of Wi-Fi sensors using packet-sniffing to gather metadata about wireless devices within their respective ranges.
+%%Data collection is performed using packet sniffing by setting the network interface cards of sensors to monitor mode.
 For most devices, packet metadata includes a unique media access control (MAC) address for both the packet source and its destination.
 Along with timestamps and received signal strength indicators, this information is stored in a centralized database and subsequently analyzed.
 
-The rational for this system is that close spatiotemporal proximity of wireless devices indicates social interactions in the physical world.
+The rationale for this system is that close spatiotemporal proximity of wireless devices indicates social interactions in the physical world.
 Essentially, devices that are seen to be physically close at the same time are likely owned by people that are somehow connected socially.
 In this setup, devices are considered to be spatiotemporally close if they are seen by the same antenna during a small time period.
 It follows that the size and shape of the antenna footprint will have an effect on the quality and quantity of the geographical information.
@@ -31,9 +35,12 @@ Machine learning will be implemented to identify environmental conditions in (ne
 For mathematical analysis and simulations, the monitored area is reduced to a quantized 2-dimensional grid.
 Motion of devices is modeled as random walks, which reflect at the boundaries of the area.
 When a device finds a (pre-determined) peer device in close proximity, the two units pause for a random amount of time, whose mean is proportional to their ``connectedness''.
-Antenna footprints are modeled as connected subsets of the grid, such that devices located within a footprint are visible to the corresponding sensors; devices outside of that same subset are invisible.
+%%Antenna footprints are modeled as connected subsets of the grid, such that devices located within a footprint are visible to the corresponding sensors; devices outside of that same subset are invisible.
+Antenna ranges are modeled as connected subsets of the grid.
 The inference task is to reconstruct the matrix of social connectedness based on observed data.
 The associated design challenge is to build antennas and pick sensor locations as to maximize overall system performance.
 
+\end{abstract}
 \end{document}
+
 
