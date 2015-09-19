@@ -1,6 +1,7 @@
 \documentclass{ursiNRSM}
 
-\title{Reconfigurable Antennas and Machine Learning for Inference Based on Wi-Fi Metadata}
+\title{Leveraging Reconfigurable Antennas and Machine Learning\\
+in Inference Tasks Based on Wi-Fi Metadata}
 
 %% the organization option [orgN] associates the authors with his
 %% proper address
@@ -9,7 +10,8 @@
 \author[org1]{Gregory H. Huff}
 
 %% each address must have a unique identifier in the option field
-\address[org1]{Department of Electrical and Computer Engineering, Texas A\&M University, College Station, TX, 77843}
+\address[org1]{Department of Electrical and Computer Engineering\\
+Texas A\&M University, College Station, TX 77843}
 
 
 \begin{document}
@@ -22,22 +24,22 @@ For most devices, packet metadata includes a unique media access control (MAC) a
 Along with timestamps and received signal strength indicators, this information is stored in a centralized database and subsequently analyzed.
 
 The rationale for this system is that close spatiotemporal proximity of wireless devices indicates social interactions in the physical world.
-Essentially, devices that are seen to be physically close at the same time are likely owned by people that are somehow connected socially.
+Essentially, devices that are frequently found in the vicinity of one another are likely owned by people that are somehow connected socially.
 In this setup, devices are considered to be spatiotemporally close if they are seen by the same antenna during a small time period.
 It follows that the size and shape of the antenna footprint will have an effect on the quality and quantity of the geographical information.
 At the extreme, an omnidirectional antenna that can monitor the entire test-area will give no useful geographical information.
-Conversely, an antenna with an extremely small footprint will localize any devices it sees to a specific point, but will gather much less information compared to a larger footprint.
+Conversely, an antenna with an extremely small footprint will localize any device it sees to a specific point, but will gather much less information compared to a larger footprint.
 Though it is unclear what the ideal antenna pattern would be for this task, it is reasonable to assume that it will depend on certain environmental factors, e.g., density of devices, size of the monitored area, graph connectivity among devices, etc.
 Based on these assumptions, this initiative explores the role of reconfigurable antennas in creating a system that is adaptable to different environments.
-Machine learning techniques are then leveraged to identify environmental conditions in (near) real time and reconfigure the antennas accordingly.
+Machine learning techniques are then leveraged to identify operating conditions in (near) real time and reconfigure the antennas accordingly.
 
 For mathematical analysis and simulations, the monitored area is reduced to a quantized 2-dimensional grid.
 Motion of devices is modeled as random walks, which reflect at the boundaries of the area.
 When a device finds a (pre-determined) peer device in close proximity, the two units pause for a random amount of time, whose mean is proportional to their ``connectedness''.
-Antenna footprints are modeled as connected subsets of the grid, such that devices located within a footprint are visible to the corresponding sensors; devices outside of that same subset are invisible.
+Antenna footprints are modeled as connected subsets of the grid such that devices located within a footprint are visible to the corresponding sensors; devices outside of that same subset are invisible.
 %%Antenna ranges are modeled as connected subsets of the grid.
 The inference task is to reconstruct the matrix of social connectedness based on observed data.
-The associated design challenge is to build antennas and pick sensor locations as to maximize overall system performance.
+The associated design challenge is to build dynamic antennas and pick sensor locations as to maximize overall system performance.
 
 \end{abstract}
 \end{document}
