@@ -18,18 +18,18 @@
 \pagenumbering{roman} % Roman numerals
 \setcounter{page}{2}
 
-\indent This thesis work is an exploration into the application of machine learning to various, mostly related, statistical inference tasks.
-Machine learning is the process by which an algorithm can recognize patterns or trends in data and act accordingly.
-More specifically, as in our case, supervised learning involves training a model with example data - simulated or real - which is labeled with the desired result.
-The model then learns how to infer these desired results, and can apply what it has learned to new, unlabeled datasets.
+\indent This thesis work is an exploration into the application of machine learning to a current problem relating to streams of aerial images, with application to hyperspectral or multistpectral images.
+Multispectral or hyperspectral images contain information from outside the visible light spectrum, generally, in addition to capturing the visible light spectrum, with the latter containing more bands.
+The streams of images referred to are taken by a unmanned aerial vehicle, UAV, over some space of land.
 
-Our inference tasks mostly involve determining, in some sense, the location of wireless devices based on received/monitored signals.
-In one instance, we seek to classify wireless devices as being inside or outside of a prescribed area; this is used as a stepping stone to precise occupancy estimation.
-In another case, we wish to correlate certain wireless devices, and hence their users, by means of observing sustained or repeated close spatiotemporal proximity.
-Another project involves rapidly detecting statistically anomalous images in a stream of high resolution multispectral images.
+Our problem relates to flight inconsistencies in the UAV.
+In an ideal scenario, our UAV captures a set of images from a specified height, pointed normally at the ground, with a predetermined amount of overlap between images.
+However, due to inconsistencies inherent in most flight, the UAV will occasionally tilt or swing in such a way that the images captured are not in line with adjacent images, i.e. they do not have the required amount of overlap, and their information may be blurred.
+This creates a problem when attempting image stitching afterwards, as such anomalous images will be irrecconcilable with adjacent images.
+The problem here is to create a system which can, in pseudo-real time, detect images which are out of line, generally through the use of feature extraction and machine learning.
 
-Overall, we are trying to determine the applicability of various machine learning optimization methods to these types of problems.
-The idea is that, while traditionally solved from a purely statistical standpoint, these problems and systems can benefit from machine learning.
+Our research compares and evaluates a number of image features and learning algorithms on the basis of their performance in this task.
+Further auxillary research relates more specifically to the content of the images, and includes image segmentation and clustering based on spectral signatures, as well as possible projection and illumination correction.
 
 
  

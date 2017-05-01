@@ -13,160 +13,141 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\chapter{PRELIMINARY RESULTS}
-Since we have been applying machine learning to these problems for a few years, we have some nice prelimiary results to show.
-For each of these problems, there is a traditionally statistical way to solve them, which we have augmented with different machine learning methods and algorithms.
-\section{Occupancy Estimation}
-In this problem, we attempt to accurately estimate the occupancy of a defined area by analyzing metadata from monitored WiFi activity.
-There are two key pieces of metadata used: RSSI (received signal strength indicator) and MAC (media access control) identifiers for the sources.
-Essentially, the MACs are used to uniquely identify where a packet came from, and RSSI values are used at various antennas to determine whether the packet came from inside or outside of the defined region.
+\chapter{PRELIMINARY RESULTS AND CURRENT EFFORTS}
+Our preliminary results consist of an evaluation of pixel distribution distances as an effective metric, as well as the exploration of other image features to be used in our learning algorithm.
+In our prelimiary analysis we had access to a small dataset; we have recently gained access to a much larger dataset which we are currently cleaning and labeling in order to further our training and analysis.
+This analysis was performed on greyscale images, as we did not yet have access to images with many bands, and greyscale or average intensity values have traditionally proven to be effective for image analysis.
 
-\begin{figure}[ht]
+\section{Image feature evaluation}
+In this problem, we wish to find a set of features which can be quickly extracted from images, and used to train a model to identify images that do not belong in the stream.
+The first step in this process is to evaluate features to find ones that are suitable to our needs: quickly extracted and distinguishing between overlapping and non-overlapping images.
+
+When thinking of the differences between overlapping and non-overlapping images, pixel distribution was one of our first ideas.
+Pixel distribution is a very simple feature to extract: it can be done in linear time with respect to the number of pixels, and is easily distributable.
+Furthermore, it is clear that images with a large overlap will have fairly similar pixel distributions (since much of their conent is identical), and non-overlapping images may not.
+
+
+\subsection{Distribution Distances}
+Once pixel distributions are extracted, a method for comparing the distributions is needed.
+From the field of statistics, there are a few methods for calculating \"distances\" between distributions: the higher the distance, the less similar the distributions are in some way.
+
+The first distance metric we looked at is a very common method for calculating the distance between two sets of numbers: the mean-squared error or MSE.
+Essentially, the MSE is the L-2 norm of the errors or differences between the two sets of numbers.
+If we consider the first distribution to be the vector $\underline{\mathbf{p}}$ to be one distribution and the vector $\underline{\mathbf{q}}$ to be another distribution, each of length n, then the MSE is given by:
+
+\begin{center}
+\begin{math}
+\frac{1}{n} (\sum\limits_{i=1}^n{(p_i-q_i)^2})^{1/2}
+\end{math}
+\end{center}
+
+While the MSE does provide a distance between the two distributions, it is more suited to calculating errors, as the name suggests.
+Another distance metric, called the Bhattacharyya distance, is actually designed to measure the similarity between two continuous or discrete probability distributions.
+It is calculated by taking the negative of the log of the closely related Bhattacharyya coefficient.
+The Bhattacharyya coefficient was designed to be a metric for the amount of overlap between two distributions, defined as:
+
+\begin{center}
+\begin{math}
+BC(\mathbf{p}, \mathbf{q}) = \sum\limits_{i=1}^n{\sqrt{p_iq_i}}
+\end{math}
+\end{center}
+
+\noindent Making the Bhattacharyya distance equal to:
+
+\begin{center}
+\begin{math}
+BD(\mathbf{p}, \mathbf{q}) = -ln(\sum\limits_{i=1}^n{\sqrt{p_iq_i}})
+\end{math}
+\end{center}
+
+Our results were predictably better using the Bhattacharyya distance rather than the MSE, so this distance metric was used for evaluation of distributions as a distinguishing feature. It is worth noting that both of these distance metrics are caluclated in linear time with respect to the number of possible intensity values.
+
+\subsection{Application to images with peak-finding}
+
+In order to evaluate the effectiveness of the Bhattacharyya distance as a distinguishing feature, we calculated the distance between distributions of consecutive images in our datasets.
+Even between the two flights contained in our dataset, the means and variances between flights were widely different, making a simple threshold invalid as a classifier.
+Instead, we considered the distance values as a signal and used the peak-finding capabilities in SciPy to correlate spikes in the distances with the anomalous images we are trying to detect.
+
+Below are two figures showing the distance metrics of our two flights with the detected peaks marked:
+
+\begin{figure}[h]
 \centering
-\includegraphics[scale=0.75]{TAMUthesis_CMD_windows.png}
-\caption[The command line compiler in Windows.]{The command line compiler in Windows. It is not suggested that you compile using this method. See compilation instructions in the README.}
+\includegraphics[scale=.50]{figures/608pf}
+\caption{Plot of Bhattacharyya distances for the flight on 6/08/16}
+\label{fig:tamu-fig1}
+\end{figure}
 
-\label{fig:CMD_1}
+\begin{figure}[h]
+\centering
+\includegraphics[scale=.50]{figures/629pf}
+\caption{Plot of Bhattacharyya distances for the flight on 6/29/16}
+\label{fig:tamu-fig2}
+\end{figure}
 
+Between both flight datasets, we achieved a detection rate of 66.0\% and a false alarm rate of 24.1\%.
+While this is not an acceptable level of performance for the system as a whole, it is effective enough to be useful among a set of features used in a training algorithm.
+One reason why this feature does not perform better is that it discards all spatial information in the images; any permutation of the pixels will result in the same pixel distribution.
+Furthermore, this feature alone will perform poorly in distinguishing out-of-sync images that happen to be over a homogeneous area, as the pixel distributions will still be close.
+
+\subsection {Other features}
+As stated, other features are needed in order to create a robust detection system.
+From the field of image processing, there are many image features that can be calculated quickly; our goal is to find features which can be compared and matched among consecutive images in a stream to determine if the images are overlapping by the desired amount.
+
+From previous research into image classification using feature descriptiors \cite{hyperspectralClass}, we have identified the SIFT feature as a potential feature which does incorporae spatial information.
+This is a scale-invariant feature transform which can be implemented in real time.
+Another potential feature with similar attributes is called CenSurE \cite{censure} , which we are also testing.
+Other easily computable feature descriptors that we are considering include the BRIEF binary descriptor and the DAISY dense feature description.
+The idea with these feature descriptors is to locate a set of keypoints in each image, and then attempt to match them between images to infer that the regions enclosed by matched descriptors are overlapping.
+
+A different feature we are testing is the segmentation and classification of textures within each image using Local Binary Patterns (LBP).
+Utilizing the percentage of an image occupied by certain image textures yields a feature similar to the pixel distribution, but over regions of the image rather than on an individual pixel level.
+This idea extends naturally into using the multiple bands in multispectral or hyperspectral images for texture classification.
+
+
+\section {Current efforts}
+Our current efforts are split between data gathering and algorithm development.
+As mentioned, we have recently gained access to a large amount of raw data for use in this project.
+However, the data still needs to be cleaned and labeled before it can be used in algorithm development and assessment.
+
+ALgorithm development has been focused on writing a framework in which we can assess the performance of different image features as well as detection algorithms.
+Once the data is prepared, the above mentioned image features will be calculated and used as a feature vector to train and run various learning algorithms.
+
+\subsection {Potential Learning Algorithms}
+Among the many supervised learning classification algorithms, we have selected a few that we believe will perform this detection well.
+The first among these is logistic regression: one of the most widely used classification algorithms.
+Logistic regression takes a labeled training set of feature vectors $\mathbf{x^{(i)}}$ and corresponding binary labels $\mathbf{y^{(i)}}$.
+It then finds a $\theta$ to minimze the cost function:
+
+\begin{center}
+\begin{math}
+J(\theta) = \frac{1}{m} \sum\limits_{i=1}^m\frac{1}{2}(h_\theta(x^{(i)})-y^{(i)})^2
+\end{math}
+\end{center}
+
+\noindent Where $h_\theta$ is the logistic function defined as $h_\theta(x) = \frac{1}{1+e^{-\theta^Tx}}$
+
+The next learning algorithm we have selected is the backpropagation artificial neural network (ANN).
+An ANN is a highly connected directed graphical model, in which the nodes are separated into layers.
+In the first layer, called the input layer, your observation or data is input into the layer's nodes.
+From here, the information propagates from layer to layer according to the weights of the connections between nodes in each layer.
+In training, the output at the final layer is compared to the desired output, and connection weights are adjusted according to the error.
+ANNs have massive potential for performing at tasks which are difficult to define or explicity program, but often require a large amount of training data and time to become effective.
+The typical neural network diagram is displayed below for clarity.
+
+One of the other possible classification algorithms being considered is the decision tree. 
+Since it operates much differently from the other algorithms being considered, the decision tree may prove useful as a point of comparsion.
+A decision tree takes a labeled training set of feature vectors $\mathbf{x^{(i)}}$ and corresponding binary labels $\mathbf{y^{(i)}}$, and finds a set of ordered thresholds to compare the features to in order to classify the vector.
+This can be visualized as a tree, in which you start at the root node, and move down the tree according to the thresholds defined at the nodes.
+Leaf nodes contain the predicted classification.
+
+By comparing the performance of these algorithms, along with the previously mentioned peak-finding, with the image features desired, we believe we can gain a better understanding of the performance of different learning algorithms for this problem, while simultaneously creating a useful system for our application.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=.50]{figures/NN}
+\caption{A general ANN}
+\label{fig:tamu-fig3}
 \end{figure}
 
 
-The figure below is taken from R. While there are packages available to import graphics from R, MATLAB, and similar software, it is probably best to export plots generated by these programs as a PNG file, and then import it via the \textit{includegraphics} command.
 
-\begin{figure}[ht]
-	\centering
-	\includegraphics[scale=0.55]{UnemDiffACF.png}
-	\caption{The autocorrelation function (ACF) of the differenced unemployment series. Seasonal adjustments may be needed.}
-\end{figure}
-
-\section{Table Placement, Size and Table Title}
-
-Here is a table, displaying band and auxiliary scores from the 2011 Arcadia Festival of Bands held in Arcadia, CA \cite{ARCADIA}.
-
-\begin{table}[h!]
-	\centering
-
-	\label{Band}
-	\begin{tabular}{|l|l|l|}
-		\hline
-		School Name & Band Score & Auxiliary Score \\ \hline
-		Rancho Bernardo & 96.15 & 89.15 \\ \hline
-		Mt. Carmel & 95.30 & 83.55 \\ \hline
-		Riverside King & 93.85 & 91.75 \\ \hline
-		Diamond Bar & 93.20 & 88.60 \\ \hline
-		El Dorado & 92.80 & 95.45 \\ \hline
-		Chino & 92.65 & 91.45 \\ \hline
-		Henry J. Kaiser & 92.60 & 87.55 \\ \hline
-		Glendora & 92.60 & 89.15 \\ \hline
-		Montebello & 90.50 & 82.70 \\ \hline
-		Mira Mesa & 89.65 & 91.50 \\ \hline
-	\end{tabular}
-	\caption{Scores from the 2011 Arcadia Festival of Bands.}
-\end{table}
-
-The table is sorted by band score. There is more text here to demonstrate how the template handles spacing between tables and body text. Also note how the table caption is in a smaller font size than the body text.
-
-\section{Equations}
-
-The following format is recommended to be used to display equations.
-
-%Make other examples.
-\begin{equation} \label{Equ.2.1}
-y=c_1\cos(t)+c_2\sin(t)
-\end{equation}
-\begin{equation} \label{Equ.2.2}
-e^{it}=\cos(t)+i\sin(t)
-\end{equation}
-
-Equation \ref{Equ.2.1} is the general solution to the differential equation $y''+y=0$. In the source code, the \textit{ref} command allows you to refer to an equation by a label you created. References must be made after the equation has been created; attempting to refer to an equation before it is defined results in a question mark placeholder. Some more sample equations are below. Notice the first set below is not numbered.
-%%
-\begin{align*}
-\log (x^n) &= \log (x \cdot x \cdot \ldots \cdot x) \\
-&= \log x + \log x + \ldots + \log x \\
-&= n \log x
-\end{align*}
-\begin{equation} \label{Equ.2.3}
-X^T X \mathbf{u} = X^T \mathbf{y}
-\end{equation}
-\begin{equation}\label{Equ.2.4}
-u(x, t) = \int_{-\infty}^{\infty} G(x, \tau) \exp\left(-\frac{(t-\tau)^2}{4kt}\right) \ d\tau
-\end{equation}
-\begin{gather}
-\mathcal{L}(f) = \int_{0}^{\infty} e^{-st} f(t) \ dt \\
-\begin{split} \label{Equ.2.5}
-\mathcal{F}(f) = \frac{1}{2\pi}\int_{-\infty}^{\infty} e^{i \omega x} f(x) \ dx
-\end{split}
-\end{gather}
-
-You can use labels to refer to equations you create. \ref{Equ.2.5} is the \textbf{Laplace transform} used extensively in differential equations. \ref{Equ.2.3} is the matrix representation of the \textbf{normal equations} used in least-squares regression.
-
-To have equations without labels appearing the right margin, simply add an asterisk to the name of the environment (equation, align, etc.) when making the declaration.
-
-
-\section{Theorems and Proofs: Examples}
-
-This section will show an example usage of the theorem and proof environments, typically used for mathematics students. To use these environments, you must have the package \textbf{amsthm} declared in the preamble of your document. For this template, this is already declared in the main file. You may choose to remove this declaration if your document will not make use of theorems and proofs.
-
-Theorems can be numbered, as the one below is, or you can force a different label to appear. For example, you can state the Bolzano-Weierstass theorem and have the names appear as the theorem label. See the examples below.
-
-Sometimes you may have a theorem with multiple parts or multiple conditions. You can use other list environments, such as enumerate, inside the theorem environment declared to list these conditions. The final example at the end of this block shows this with the Invertible Matrix Theorem, which has several equivalent statements.
-
-\newtheorem{thm}{Theorem}
-\begin{thm}
-	Suppose $f$ is of class $\mathcal{C}^1$ and $g$ is of class $\mathcal{C}^2$, and that the compact set $D$ and its boundary satisfy the hypotheses of Green's Theorem.  Then
-	\[ \iint \limits_D f\nabla^2 g \ dA = \oint_{\partial D} f(\nabla g) \cdot \mathbf{n} \ ds - \iint \limits_D \nabla f \cdot \nabla g \ dA . \]
-\end{thm}
-
-\begin{proof}
-	Begin with the integral of $f\nabla g \cdot n$ taken over the boundary of D.  By the second vector form of Green's Theorem,
-	\begin{align*}
-	\oint_{\partial D} f\nabla g \cdot n \ ds &= \iint \limits_D \nabla \cdot (f\nabla g) \ dA \\
-	&= \iint \limits_D f\nabla^2 g + \nabla f \cdot \nabla g \ dA.
-	\end{align*}
-	
-	Rearranging yields the desired.
-\end{proof}
-
-\begin{thm}[Bolzano-Weierstrass]
-	Every bounded real sequence has a convergent subsequence.
-\end{thm}
-
-\begin{thm}[Invertible Matrix Theorem\footnote{This is an incomplete list.}]
-	For any square matrix $A$ with $n$ rows and columns, the following are equivalent.
-	\begin{enumerate}
-		\item $A$ is invertible.
-		\item The equation $A\mathbf{x}=\mathbf{0}$ has only the trivial solution $\mathbf{x} = \mathbf{0}.$
-		\item For any nonzero $\mathbf{b}, \ A\mathbf{x} = \mathbf{b}$ has exactly one solution.
-		\item The columns of $A$ form a linearly independent set.
-		\item Zero is not an eigenvalue of $A$.
-		\item $A$ has full rank.
-		\item The determinant of $A$ is not zero.
-	\end{enumerate}
-\end{thm}
-
-There is currently no set format on how propositions and theorems should be laid out in the document. The idea is to remain consistent. It is best to not customize the appearance of theorems so that they can easily be distinguished from body text - just like figures, tables, and headings.
-
-\section{Another Table Example}
-For the sake of testing the appearance of the list of tables, a second table will be displayed here. This table displays a list of some major universities and their enrollments during fall 2015. This table is sorted in descending order of enrollment.
-%The savenotes environment, loaded from the footnote package
-%(which in turn is loaded from mdwtools)
-%allows you to use footnotes in tables, if needed.
-\begin{savenotes}
-\begin{table}[h!]
-	\centering
-	\label{my-label}
-	\begin{tabular}{|l|l|l|}
-		\hline
-		School & City and State & Fall 2015 Enrollment  \\ \hline
-		Texas A\&M University\footnote{Gig 'em!} & College Station, TX & 64,376  \\ \hline
-		Ohio State University\footnote{This number describes enrollments at the Columbus campus; enrollments at regional campuses in Lima, Mansfield, Marion, Newark, and Wooster are not counted.} & Columbus, OH & 58,322 \\ \hline
-		Iowa State University & Ames, IA & 36,001 \\ \hline
-		University of California, San Diego & La Jolla, CA & 33,735   \\ \hline
-		University of West Florida & Pensacola, FL & 12,798 \\ \hline
-		Massachusetts Institute of Technology & Cambridge, MA & 11,319   \\ \hline
-	\end{tabular}
-	\caption{Some major universities and their fall 2015 enrollments.}
-\end{table}
-\end{savenotes}
-
-Naturally, tables and footnotes do not go together. If you attempted to write a footnote inside a table, there will be nothing at the bottom of the page, yet the footnote marker will still appear. To remedy this, the \textit{footnote} package has been loaded from the \textit{mdwtools} package. Check your TeX distribution to see if \textit{mdwtools} is installed. See the source code for how this is implemented.
