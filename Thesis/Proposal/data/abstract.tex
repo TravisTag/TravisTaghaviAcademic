@@ -26,7 +26,7 @@ Our problem relates to flight inconsistencies in the UAV.
 In an ideal scenario, our UAV captures a set of images from a specified height, pointed normally at the ground, with a predetermined amount of overlap between images.
 However, due to inconsistencies inherent in most flight, the UAV will occasionally tilt or swing in such a way that the images captured are not in line with adjacent images, i.e. they do not have the required amount of overlap, and their information may be blurred.
 This creates a problem when attempting image stitching afterwards, as such anomalous images will be irrecconcilable with adjacent images.
-The problem here is to create a system which can, in pseudo-real time, detect images which are out of line, generally through the use of feature extraction and machine learning.
+The goal here is to create a system which can, in pseudo-real time, detect images which are out of line, through the use of feature extraction and machine learning, so that they can be discarded and possibly recaptured.
 
 Our research compares and evaluates a number of image features and learning algorithms on the basis of their performance in this task.
 Further auxillary research relates more specifically to the content of the images, and includes image segmentation and clustering based on spectral signatures, as well as possible projection and illumination correction.
