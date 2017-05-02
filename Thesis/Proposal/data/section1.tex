@@ -32,11 +32,11 @@ Related tasks involve the spectral and spatial analysis of hyperspectral images.
 The broad motivation for this project is rooted in concerns that have an urgent global impact.
 As current global population estimates reach 7.5 billion, with simultaneous climate change, there is a general scientific consensus that we are heading towards an impending water shortage.
 Already, while the supply of usable fresh water has been declining, the overall demand for water has tripled since the 1950s.
-It is estimated that, by 2025, up to two thirds of the world's population could be water-stressed \cite{waterresources}.
+It is estimated that, by 2025, up to two thirds of the world's population could be water-stressed~\cite{waterresources}.
 In fact, numerical models that account for climate change, water needs, and socioeconomic variables show that not only is a large percentage of the world currently experiencing water shortage, but that demands for water are a greater factor than greenhouse warming when considering the state of water systems over the next several years.
 
 A somewhat promising avenue for mitigating this problem is in the area of precision agriculture.
-Most estimates place the share of global water usage for irrigated agriculture at 70\%, making it by far the dominant use of water \cite{waterscarce}.
+Most estimates place the share of global water usage for irrigated agriculture at 70\%, making it by far the dominant use of water~\cite{waterscarce}.
 % As such, it is agriculture that faces the largest and most urgent concerns for water shortage.
 % Thus, as food demands increase, the means of food production are in jeopardy.
 % However, while agriculture is the dominant user of water, it also and area that has the potential for great reduction in water usage.
@@ -45,7 +45,7 @@ Most estimates place the share of global water usage for irrigated agriculture a
 % Essentially, this is the percentage of the plant that is useful after harvest.
 % We are reaching limits for increased harvest index due to needs for sufficient stem and leaf biomass, however.
 It is predicted that greater overall yield potential will have to come from gains in net productivity of farming.
-Precision agriculture has been shown to potentially increase farm profits by a significant amount with data collection, mapping of blackgrass weeds, and precision application of fertilizer, without even including precision irrigation\cite{precisionagfuture}.
+Precision agriculture has been shown to potentially increase farm profits by a significant amount with data collection, mapping of blackgrass weeds, and precision application of fertilizer, without even including precision irrigation~\cite{precisionagfuture}.
 
 
 Recent and continuing advances in technology and data science offer increased efficiency and productivity in many areas.
@@ -103,7 +103,7 @@ When the program attempts to feature-match these anomalous images with adjacent 
 The current system of addressing this problem is to have a human try to find these anomalous images by hand and remove them before processing.
 The first problem with this is that this is a tiring and time-consuming process for the image reviewer, as well as the potential for human error in an otherwise mostly automated process.
 Secondly, if the images are only removed afterwards, there is no chance to re-take the images, leaving the possibility for gaps in the final output if there are large regions of anomalous images.
-Our goal is to develop a system for detecting these anomalous images in pseudo-real time (i.e. during the flight) so that they may be re-taken if necessary.
+Our goal is to develop a system for detecting these anomalous images in pseudo-real time (i.e., during the flight) so that they may be re-taken if necessary.
 
 Algorithms do exist for explicitly finding the overlap between images, based on taking convolutions and Fourier transforms.
 However, as stated previously, these are high-resolution images with many bands, and therefore contain a large amount of data.
@@ -116,7 +116,4 @@ Ideally, features are extracted which preserve the information relevant to our t
 Beyond assessing the value of various image features, we will be evaluating a few different learning models for classifying the images as regular or anomalous.
 
 
-
-
- 
 

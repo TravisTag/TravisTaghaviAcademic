@@ -28,39 +28,32 @@ Furthermore, it is clear that images with a large overlap will have fairly simil
 
 
 \subsection{Distribution Distances}
+
 Once pixel distributions are extracted, a method for comparing the distributions is needed.
 From the field of statistics, there are a few methods for calculating \"distances\" between distributions: the higher the distance, the less similar the distributions are in some way.
 
 The first distance metric we looked at is a very common method for calculating the distance between two sets of numbers: the mean-squared error or MSE.
 Essentially, the MSE is the L-2 norm of the errors or differences between the two sets of numbers.
 If we consider the first distribution to be the vector $\underline{\mathbf{p}}$ to be one distribution and the vector $\underline{\mathbf{q}}$ to be another distribution, each of length n, then the MSE is given by:
-
-\begin{center}
-\begin{math}
-\frac{1}{n} (\sum\limits_{i=1}^n{(p_i-q_i)^2})^{1/2}
-\end{math}
-\end{center}
+\begin{equation}
+\frac{1}{n} \left( \sum_{i=1}^n{(p_i-q_i)^2} \right)^{1/2} .
+\end{equation}
 
 While the MSE does provide a distance between the two distributions, it is more suited to calculating errors, as the name suggests.
 Another distance metric, called the Bhattacharyya distance, is actually designed to measure the similarity between two continuous or discrete probability distributions.
 It is calculated by taking the negative of the log of the closely related Bhattacharyya coefficient.
 The Bhattacharyya coefficient was designed to be a metric for the amount of overlap between two distributions, defined as:
+\begin{equation}
+BC(\mathbf{p}, \mathbf{q}) = \sum_{i=1}^n{\sqrt{p_iq_i}} .
+\end{equation}
+Making the Bhattacharyya distance equal to:
+\begin{equation}
+BD(\mathbf{p}, \mathbf{q}) = - \ln \left( \sum_{i=1}^n {\sqrt{p_iq_i}} \right) .
+\end{equation}
 
-\begin{center}
-\begin{math}
-BC(\mathbf{p}, \mathbf{q}) = \sum\limits_{i=1}^n{\sqrt{p_iq_i}}
-\end{math}
-\end{center}
+Our results were predictably better using the Bhattacharyya distance rather than the MSE, so this distance metric was used for evaluation of distributions as a distinguishing feature.
+It is worth noting that both of these distance metrics are caluclated in linear time with respect to the number of possible intensity values.
 
-\noindent Making the Bhattacharyya distance equal to:
-
-\begin{center}
-\begin{math}
-BD(\mathbf{p}, \mathbf{q}) = -ln(\sum\limits_{i=1}^n{\sqrt{p_iq_i}})
-\end{math}
-\end{center}
-
-Our results were predictably better using the Bhattacharyya distance rather than the MSE, so this distance metric was used for evaluation of distributions as a distinguishing feature. It is worth noting that both of these distance metrics are caluclated in linear time with respect to the number of possible intensity values.
 
 \subsection{Application to images with peak-finding}
 
@@ -89,7 +82,9 @@ While this is not an acceptable level of performance for the system as a whole, 
 One reason why this feature does not perform better is that it discards all spatial information in the images; any permutation of the pixels will result in the same pixel distribution.
 Furthermore, this feature alone will perform poorly in distinguishing out-of-sync images that happen to be over a homogeneous area, as the pixel distributions will still be close.
 
-\subsection {Other features}
+
+\subsection{Other features}
+
 As stated, other features are needed in order to create a robust detection system.
 From the field of image processing, there are many image features that can be calculated quickly; our goal is to find features which can be compared and matched among consecutive images in a stream to determine if the images are overlapping by the desired amount.
 
@@ -112,19 +107,17 @@ However, the data still needs to be cleaned and labeled before it can be used in
 ALgorithm development has been focused on writing a framework in which we can assess the performance of different image features as well as detection algorithms.
 Once the data is prepared, the above mentioned image features will be calculated and used as a feature vector to train and run various learning algorithms.
 
-\subsection {Potential Learning Algorithms}
+
+\subsection{Potential Learning Algorithms}
+
 Among the many supervised learning classification algorithms, we have selected a few that we believe will perform this detection well.
 The first among these is logistic regression: one of the most widely used classification algorithms.
 Logistic regression takes a labeled training set of feature vectors $\mathbf{x^{(i)}}$ and corresponding binary labels $\mathbf{y^{(i)}}$.
-It then finds a $\theta$ to minimze the cost function:
-
-\begin{center}
-\begin{math}
-J(\theta) = \frac{1}{m} \sum\limits_{i=1}^m\frac{1}{2}(h_\theta(x^{(i)})-y^{(i)})^2
-\end{math}
-\end{center}
-
-\noindent Where $h_\theta$ is the logistic function defined as $h_\theta(x) = \frac{1}{1+e^{-\theta^Tx}}$
+It then finds $\theta$ to minimze the cost function:
+\begin{equation}
+J(\theta) = \frac{1}{m} \sum_{i=1}^m\frac{1}{2} \left( h_\theta \left( x^{(i)} \right) - y^{(i)} \right)^2
+\end{equation}
+where $h_\theta (\cdot)$ is the logistic function defined as $h_\theta(x) = \frac{1}{1+e^{-\theta^Tx}}$.
 
 The next learning algorithm we have selected is the backpropagation artificial neural network (ANN).
 An ANN is a highly connected directed graphical model, in which the nodes are separated into layers.
@@ -140,7 +133,7 @@ A decision tree takes a labeled training set of feature vectors $\mathbf{x^{(i)}
 This can be visualized as a tree, in which you start at the root node, and move down the tree according to the thresholds defined at the nodes.
 Leaf nodes contain the predicted classification.
 
-By comparing the performance of these algorithms, along with the previously mentioned peak-finding, with the image features desired, we believe we can gain a better understanding of the performance of different learning algorithms for this problem, while simultaneously creating a useful system for our application.
+By comparing the performance of these algorithms, along with the previously mentioned peak-finding, with the image features desired, we believe we can gain a better understanding of the performance of different learning algorithms for this problem, while simultaneously creating a useful system for our intended application.
 
 \begin{figure}[h]
 \centering
