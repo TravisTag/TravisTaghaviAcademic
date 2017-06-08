@@ -19,7 +19,9 @@ The results of this research are split into the testing of features and learning
 
 \section{Feature Evaluation}
 As stated previously, plots of the various distances metrics for features are plotted, along with the corresponding labels, to evaluate whether a feature is sufficient.
-Shown below are the plots for pixel distribution, BRIEF descriptors, and blob detection.
+The average extraction time for each feature for a single image is also shown.
+These features were extracted using a single core of an Intel i5 processor with a maximum clock speed of 2.7 GHz.
+Shown below are the plots and average extraction time for pixel distribution, BRIEF descriptors, and blob detection.
 
 \subsection{Pixel Distribution}
 Shown is the plot for the Bhattacharyya distances between consecutive image pairs for the feature testing subset:
@@ -32,6 +34,7 @@ Shown is the plot for the Bhattacharyya distances between consecutive image pair
 \end{figure}
 
 Spikes in the BD can be seen around the locations of the anomalous images, along with some spikes in other areas.
+The average time for histogram calculation and distance calculation combined is 0.0473 seconds.
 
 \subsection{BRIEF Descriptors}
 
@@ -54,6 +57,8 @@ Next, the plot for the ratio of keypoints matched is shown:
 \end{figure}
 
 Contrary to the other metrics which are true distances, a dip can be seen in the number of matches and the percentage of keypoints matched can be seen around the anomalous images.
+The average time for BRIEF extraction for a single image is 0.244 seconds.
+Distance metric calculation is a single operation of negligble processing time.
 
 \subsection{Blob Detection}
 
@@ -76,6 +81,7 @@ Next, the plot for the difference in total blob area between consecutive images 
 \end{figure}
 
 Similarly to the distribution distance plots, spikes can be seen around the anomalous images, as well as in other places.
+The average time for extraction of blobs for a single image is 1.06 seconds -- the longest time for any of the considered features.
 
 \section{Learning Algorithm Evaluation}
 

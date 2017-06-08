@@ -112,7 +112,12 @@ Given that this does not allow for a stream of images to be processed in near-re
 This process of operating on a set of extracted features rather than the entire volume of information is called feature extraction and dimensionality reduction.
 A key focus of of this feature extraction/dimensionality reduction is the interplay between faster computing times and a loss of information.
 Ideally, features are extracted which preserve the information relevant to our task while, to some degree, discarding the unnecessary information.
-Beyond assessing the value of various image features, we will be evaluating a few different learning models for classifying the images as regular or anomalous.
+After this, the image features between each pair of consecutive images must be compared to create a feature vector.
+Each feature vector can be then be associated with a label that states whether or not the pair of images contain acceptable overlap.
 
+
+Beyond assessing the value of various image features, we evaluate a few different learning models for classifying the images as regular or anomalous.
+This setting, in which labeled feature vectors are used to train a model, is called supervised classification.
+The labeled data is split between a training and testing set, which can be used to create predictive models as well as evaluate their performance.
 
 
