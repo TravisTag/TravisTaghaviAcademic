@@ -1,0 +1,10 @@
+- Abstract
+- Introduction
+- Motivation
+- Literature Review
+- Problem Formulation
+- Feature Evaluation
+- Learning Algorithms
+- Testing Methodology
+- Results
+- Conclusion

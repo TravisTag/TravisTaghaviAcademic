@@ -1,0 +1,118 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  New template code for TAMU Theses and Dissertations starting Fall 2016.
+%
+%  Author: Sean Zachary Roberson 
+%	 Version 3.08.16
+%  Last updated 8/19/2016
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                           SECTION I
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\pagestyle{plain} % No headers, just page numbers
+\pagenumbering{arabic} % Arabic numerals
+\setcounter{page}{1}
+
+
+\chapter{\uppercase {Introduction}}
+
+\section{Motivation}
+
+In general, this thesis deals with the application of machine learning to detection and image segmentation tasks in the context of agricultural imagery.
+We consider the analysis of streams of images, taken aerially, as well as the structure of single images, based on spatial and spectral data.
+The streams of images are stitched together in post to create large mosaiced maps of the monitored areas.
+Our first task involves ensuring that the stream of images meets the proper criteria for stitching while the images are being taken.
+Due to the large amount of data involved, feature extraction and machine learning are applied.
+
+The broad motivation for this project is rooted in concerns that have an urgent global impact.
+As current global population estimates reach 7.5 billion, with simultaneous climate change, there is a general scientific consensus that we are heading towards an impending water shortage.
+Already, while the supply of usable fresh water has been declining, the overall demand for water has tripled since the 1950s.
+It is estimated that, by 2025, up to two thirds of the world's population could be water-stressed~\cite{waterresources}.
+In fact, numerical models that account for climate change, water needs, and socioeconomic variables show that not only is a large percentage of the world currently experiencing water shortage, but that demands for water are a greater factor than greenhouse warming when considering the state of water systems over the next several years.
+
+A somewhat promising avenue for mitigating this problem is in the area of precision agriculture.
+Most estimates place the share of global water usage for irrigated agriculture at 70\%, making it by far the dominant use of water~\cite{waterscarce}.
+% As such, it is agriculture that faces the largest and most urgent concerns for water shortage.
+% Thus, as food demands increase, the means of food production are in jeopardy.
+% However, while agriculture is the dominant user of water, it also and area that has the potential for great reduction in water usage.
+% Precision agriculture refers to the concept of managing farming based on obervations and measurements with the objective of maximizing returns on inputs while simultaneously preserving resources, particularly water.
+% Thus far, the most successful increases in yield have come from the utilization of phenotyping and gene maniupulation to increase the harvest index: the mass of usable grain divided by the total above-ground biomass.
+% Essentially, this is the percentage of the plant that is useful after harvest.
+% We are reaching limits for increased harvest index due to needs for sufficient stem and leaf biomass, however.
+It is predicted that greater overall yield potential will have to come from gains in net productivity of farming.
+Precision agriculture has been shown to potentially increase farm profits by a significant amount with data collection, mapping of blackgrass weeds, and precision application of fertilizer, without even including precision irrigation~\cite{precisionagfuture}.
+
+
+Recent and continuing advances in technology and data science offer increased efficiency and productivity in many areas.
+Of particular application to agriculture are unmanned aircraft systems (UAS), commonly referred to as drones.
+UAS are simultaneously becoming lighter and gaining increased flight times and carrying capacities.
+This provides increased opportunity for developing automated systems for surveying and irrigating agricultural areas; a UAS with GPS and imaging can map a plot of land, providing information on biomass, crop growth and quality, weed prevalance, etc.
+Research into increased efficiency and productivity of these systems is vital to the correlated increased net productivity of irrigated farming.
+As stated, we believe improvement to precision agriculture has the potential to contribute to alleviation of the current and forecasted water scarcity.
+
+
+
+
+
+% \subsection{Hyperspectral Images}
+
+% Hyperspectral and multispectral images are not necessarily familiar concepts, but they extend naturally from the familiar structure of ordinary digital images.
+% In a greyscale digital image, each pixel is represented as one value representing the average intensity over the visible light spectrum.
+% In an RGB digital image, each pixel consists of three values: one for the average intensity over the red, green, and blue bands of the visible light spectrum.
+% A multispectral image takes this progression one step further and contains additional intensity values from beyond the visible light spectrum, traditionally infrared or near-infrared.
+% A hyperspectral image moves towards the limit of this progession, and contains many bands from a wide range of the light spectrum, possibly at a finer frequency resolution as well.
+% There is no hard line that separates a multispectral image from a hyperspectral image, but generally a multispectral image is considered to just have a few bands outside of the visible spectrum.
+% So, in the extreme case, with many bands at a fine resolution, a hyperspectral image can be thought of in three ways: as a series of images at different frequencies overlaid on top of one another, as a single image with each pixel having a discrete distribution throughout the light spectrum, and as an image cube with the third axis being the light spectrum.
+
+% It is clear that, for a high-resolution hyperspectral image, the full image cube is a very large amount of data - many multiple times the size of a normal high-resolution image.
+% Many common image processing algorithms perform in polynomial time with respect to the number of pixels, so a factor increase in the number of pixels results in a significantly higher processing time.
+% For this reason, we employ fast feature extraction, combined with machine learning models trained offline in order to quickly compare images in the manner necessary.
+
+% It is also interesting to consider each pixel as being a distribution along the light spectrum.
+% From this point of view, it has been shown that plant species and different materials can be associated successfully with a \"spectral signature\", or an average distribution of intensities along the measured frequencies.
+% We seek to utilize these spectral signatures to perform pixel clustering as a means of image segmentation by plant species or material, providing a fast and accurate segmentation that is useful for mixed-crop fields as well as undesirable growth detection.
+
+
+\section{Problem Setting and Formulation}
+
+In order to describe the setting of the problems addressed in this thesis, it is first necessary to mention that these problems are part of an overall project to develop a system for quality aerial agricultural imagery at A\&M.
+In our setting, members of the Agriculture department determine when and where to take the images, members of the Aerospace Engineering department perform the flights, and members in the Electrical and Computer Engineering department are assisting data cleaning and analysis as well as pertinent system design.
+Once a flight time and location has been set, the UAV is flown at a height of 50 to 100 meters.
+Speed and image capture delay are adjusted to achieve approximately 75\% overlap between consecutive images.
+Once the flight is complete, the image data is transferred to a member of the TAMU GEOSAT who, through specialized software, performs image stitching to create one image of the area.
+The creation of a single, accurate mapping of the monitored area is the overall goal of the flight and imaging process.
+The map, which may be hyperspectral or multispectral, is then used for a variety of tasks related to precision agriculture.
+
+It is the performance of this image stitching that we first address.
+For optimal performance in image stitching, both in terms of time taken and output quality, the images should be pointed directly towards the ground and contain the desired amount of overlap between adjacent images.
+However, the limits of current technology mean that the imaging module on the UAV is not always pointed directly towards the ground when an image is taken.
+Turbulence, swinging, and swaying of the aircraft is likely to result in images that are not pointed directly at the ground, and hence may also not contain the desired amount of overlap.
+Such images will be referred to as anomalous, and can result in large increases in processing time, as well as suboptimal output from mosaicing.
+
+These anomalous images are difficult for the image stitching program to handle.
+In general, image stitching requires predictable overlap between images, as well as nearly identical regions of overlap, in order to locate unique features that can be matched to determine where overlap exists.
+With thousands of images, the process is very computationally intensive to match all images and obtain a single map, even in an ideal scenario.
+In our case, anomalous images can be thought of as images that simply do not fit in with any other images.
+When the program attempts to feature-match these anomalous images with adjacent ones, the result is that the computation time is increased while the overall quality of the result is sacrificed.
+
+The current system of addressing this problem is to have a human try to find these anomalous images by hand and remove them before processing.
+The first problem with this is that this is a tiring and time-consuming process for the image reviewer, as well as the potential for human error in an otherwise mostly automated process.
+Secondly, if the images are only removed afterwards, there is no chance to re-take the images, leaving the possibility for gaps in the final output if there are large regions of anomalous images.
+Our goal is to develop a system for detecting these anomalous images in pseudo-real time (i.e., during the flight) so that they may be re-taken if necessary.
+
+Algorithms do exist for explicitly finding the overlap between images, based on taking convolutions and Fourier transforms.
+However, as stated previously, these are high-resolution images with many bands, and therefore contain a large amount of data.
+Additionally, convolutions and Fourier transforms cannot be calculated in linear or sub-linear time.
+In our tests, the comparison of two images to find overlap took on the order of 100 seconds using a single CPU.
+Given that this does not allow for a stream of images to be processed in near-real time, our instinct is to extract features which can then be compared and processed to predict whether the desired level of overlap is present in the images.
+This process of operating on a set of extracted features rather than the entire volume of information is called feature extraction and dimensionality reduction.
+A key focus of of this feature extraction/dimensionality reduction is the interplay between faster computing times and a loss of information.
+Ideally, features are extracted which preserve the information relevant to our task while, to some degree, discarding the unnecessary information.
+Beyond assessing the value of various image features, we will be evaluating a few different learning models for classifying the images as regular or anomalous.
+
+
+

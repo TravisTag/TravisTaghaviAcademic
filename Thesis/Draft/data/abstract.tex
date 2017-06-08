@@ -1,0 +1,36 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  New template code for TAMU Theses and Dissertations starting Fall 2016.  
+%
+%  Author: Sean Zachary Roberson
+%	 Version 3.16.09
+%  Last updated 9/12/2016
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                           ABSTRACT 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter*{ABSTRACT}
+\addcontentsline{toc}{chapter}{ABSTRACT} % Needs to be set to part, so the TOC doesnt add 'CHAPTER ' prefix in the TOC.
+
+\pagestyle{plain} % No headers, just page numbers
+\pagenumbering{roman} % Roman numerals
+\setcounter{page}{2}
+
+\indent This thesis work is an exploration into the application of machine learning to a current problem relating to streams of aerial images, with application to the imaging systems within the Texas A\&M GEOSAT group.
+The streams of images referred to are taken by a unmanned aerial vehicle, UAV, over some space of land.
+
+Our problem relates to flight inconsistencies in the UAV.
+In an ideal scenario, our UAV captures a set of images from a specified height, pointed normally at the ground, with a predetermined amount of overlap between images.
+However, due to inconsistencies inherent in most flight, the UAV will occasionally tilt or swing in such a way that the images captured are not in line with adjacent images, i.e. they do not have the required amount of overlap, and their information may be blurred.
+This creates a problem when attempting image stitching afterwards, as such anomalous images will be irrecconcilable with adjacent images.
+The goal here is to create a system which can, in pseudo-real time, detect images which are out of line, through the use of feature extraction and machine learning, so that they can be discarded and possibly recaptured.
+
+Our research compares and evaluates a number of image features and distance metrics, along with supervised classification learning algorithms, on the basis of their performance in this task.
+
+
+
+ 
+
+\pagebreak{}
