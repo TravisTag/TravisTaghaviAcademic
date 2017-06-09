@@ -28,6 +28,14 @@ Since in our problem it is important to have as high of a detection rate as poss
 The decision tree served its purpose as a point of comparison, but did not perform adequately in comparison to the other models.
 It is clear that this problem is not structured in a way that is amenable to tree learning.
 
+With respect to the requirement to have the system run in pseudo real-time, the results are also acceptable, with room for improvement.
+All used features are able to be calculated on the order of 1 second or less, with the total feature vector calculation averaging 1.35 seconds utilizing processing power similar to that of the onboard data processing units.
+The imaging systems utilizing in capturing our training and testing data performed imaging at a rate of 40-80 images per minute.
+The extraction of all features has the potential to be parallelized for performance increase.
+Since the model is not trained onboard the UAV, the model training time is not under any restrictions.
+Passing a new feature vector into any of the learning models amounts to a series of simple comparisons or matrix multiplications, the processing time of which is negligible.
+
+
 Overall, the performance of the system, in particular the logistic regression model, indicates that machine learning is a viable option for the detection of anomalous images in aerial image streams.
 A small set of quickly extracted features, along with a model that is trained offline and ported to the onboard computer of a UAV is shown to have potential to alleviate the issue of unchecked anomalous images.
 
