@@ -23,7 +23,7 @@ Furthermore, it is unclear that the texture would necessarily change when images
 The most promising of the learning algorithms was the logistic regression model, which was able to detect 95.6\% of anomalous images with a false-positive rate of 6.7\%.
 The neural network had a very low false-positive rate of 3.8\%, but failed to identify 1/4 of the anomalous images.
 As stated in the methodology section, neural networks typically perform better with extremely large training sets, so there is potential for significant improvement with more training data.
-The SVM tuning was a balance between a high false-positive rate, and a relatively low detection rate.
+The SVM tuning (mainly of the soft margin hyperparameter) was a balance between a high false-positive rate, and a relatively low detection rate.
 Since in our problem it is important to have as high of a detection rate as possible, we chose to increase this at the expense of also increasing the false-positive rate.
 The decision tree served its purpose as a point of comparison, but did not perform adequately in comparison to the other models.
 It is clear that this problem is not structured in a way that is amenable to tree learning.

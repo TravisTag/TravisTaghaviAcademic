@@ -26,12 +26,9 @@ Shown below are the plots and average extraction time for pixel distribution, BR
 \subsection{Pixel Distribution}
 Shown is the plot for the Bhattacharyya distances between consecutive image pairs for the feature testing subset:
 
-\begin{figure}[h]
-\centering
+
 \includegraphics[scale=.50]{figures/611bhattest}
-\caption{Pixel distribution evaluation}
-\label{fig:tamu-fig3}
-\end{figure}
+
 
 Spikes in the BD can be seen around the locations of the anomalous images, along with some spikes in other areas.
 The average time for histogram calculation and distance calculation combined is 0.0473 seconds.
@@ -40,21 +37,18 @@ The average time for histogram calculation and distance calculation combined is 
 
 First, the plot for the number of BRIEF matches is shown:
 
-\begin{figure}[h]
-\centering
+
+\begin{center}
 \includegraphics[scale=.50]{figures/611nummatchestest}
-\caption{BRIEF number of matches evaluation}
-\label{fig:tamu-fig3}
-\end{figure}
+\end{center}
+
 
 Next, the plot for the ratio of keypoints matched is shown:
 
-\begin{figure}[h]
-\centering
+
+\begin{center}
 \includegraphics[scale=.50]{figures/611matchratiostest}
-\caption{BRIEF keypoint match percentage evaluation}
-\label{fig:tamu-fig3}
-\end{figure}
+\end{center}
 
 Contrary to the other metrics which are true distances, a dip can be seen in the number of matches and the percentage of keypoints matched can be seen around the anomalous images.
 The average time for BRIEF extraction for a single image is 0.244 seconds.
@@ -64,21 +58,17 @@ Distance metric calculation is a single operation of negligble processing time.
 
 First, the plot for the difference in number of blobs between consecutive images is shown:
 
-\begin{figure}[h]
-\centering
+\begin{center}
 \includegraphics[scale=.50]{figures/blobdiffstest}
-\caption{Blob difference evaluation}
-\label{fig:tamu-fig3}
-\end{figure}
+\end{center}
+
 
 Next, the plot for the difference in total blob area between consecutive images is shown:
 
-\begin{figure}[h]
-\centering
+
+\begin{center}
 \includegraphics[scale=.50]{figures/blobareadiffstest}
-\caption{Blob area difference evaluation}
-\label{fig:tamu-fig3}
-\end{figure}
+\end{center}
 
 Similarly to the distribution distance plots, spikes can be seen around the anomalous images, as well as in other places.
 The average time for extraction of blobs for a single image is 1.06 seconds -- the longest time for any of the considered features.
