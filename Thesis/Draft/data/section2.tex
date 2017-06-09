@@ -1,13 +1,3 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%  New template code for TAMU Theses and Dissertations starting Fall 2016.
-%
-%  Author: Sean Zachary Roberson
-%	 Version 3.16.09
-%  Last updated 9/12/2016
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%                           SECTION II
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -19,34 +9,35 @@
 % This analysis was performed on greyscale images, as we did not yet have access to images with many bands, and greyscale or average intensity values have traditionally proven to be effective for image analysis.
 
 Our methodology for this research consists of several steps.
-First, the larger data archive is accessed, and datasets selected.
+First, the larger data archive is accessed; and the datasets, selected.
 Next, the data is cleaned, and labeled according to our criteria.
 Once the data is prepared, we perform feature evaluation: the process of extracting image features and analyzing them for their potential use in learning algorithms to detect anomalous images.
 Various distance metrics are then calculated, and again these metrics are analyzed for their utility in distinguishing acceptable images from anomalous ones.
 Finally, these metrics for each pair of consecutive images are concatenated, along with the previously generated labels, and used as training data in our learning algorithms.
-Beyond this, various synthetic features are generated, and the parameters of the learning models adjusted, to achieve optimal results.
+Beyond this, various synthetic features are generated, and the parameters of the learning models are adjusted to achieve optimal results.
 
 
-\section{Data preparation}
-In order to obtain usable datasets for training and testing, we first access the raw data.
+\section{Data Preparation}
+
+To obtain usable datasets for training and testing, we first access the raw data.
 Once imaging flights run by the Texas A\&M GEOSAT group are completed, the raw data is pushed to a network drive.
-The data is ordinarily then accessed by another member of the GEOSAT group, who performs orthomosaicing to produce a single map of the target area.
-As stated in the problem formulation, this raw data generally contains images which are problematic, i.e. the camera was not pointed normally towards the ground, and thus the images are not reconcilable with respect to the surrounding images.
-Our goal in selecting data from the source is to find datasets over unique areas which are sufficiently large -- generally more than 1000 usable images -- and which have a sufficient percentage of anomalous images -- around 5\%.
+The data is ordinarily then accessed by another member of the GEOSAT group, who performs orthomosaicking to produce a single map of the target area.
+As stated in the problem formulation, this raw data generally contains images which are problematic, i.e., the camera was not pointed normally towards the ground, and thus the images are not reconcilable with respect to the surrounding images.
+Our goal in selecting data from the source is to find datasets over unique areas which are sufficiently large, generally more than 1000 usable images, and which have a sufficient percentage of anomalous images.
 
-The data selection yielded 4 large datsets, totalling 8768 images.
-Since the current imaging process has the camera taking images before and during takeoff, as well as during and after landing, these images has to be identified and removed initially.
+The data selection yielded four large datsets, totalling 8768 images.
+Since the current imaging process has the camera taking images before and during takeoff, as well as during and after landing, these images have to be identified and removed.
 After this initial data cleaning, our datasets totalled 4863 images.
 The images are then searched through manually in order to create a list of anomalous image names which can later be used to generate label vectors for training and testing.
-After this process, 244 anomalous images were discovered among the 4 datasets, achieving our target rate of roughly 5\%.
+After this process, 244 anomalous images were discovered among the four datasets, achieving a target rate of roughly 5\%.
 
 Finally, in accordance with most image processing standards, the images are all converted to grayscale.
-There are a few reasons for this: the first is that luminence (i.e. the grayscale values from a color image) is revealing enough for the vast majority of image processing task; a secondary reason is to ease processing time by cutting the data processing by 2/3, which is particulary important to our application.
+There are a few reasons for this: the first is that luminence (i.e., the grayscale values from a color image) is revealing enough for the vast majority of image processing task; a secondary reason is to ease processing time by cutting the data processing by 2/3, which is particulary important to our application.
 
 
+\section{Image Feature Evaluation}
 
-\section{Image feature evaluation}
-In this problem, we wish to find a set of features which can be quickly extracted from images, and used to train a model to identify images that do not belong in the stream.
+In this problem, we wish to find a set of features that can be quickly extracted from images, and used to train a model to identify images that do not belong in the stream.
 The first step in this process is to evaluate features to find ones that are suitable to our needs: quickly extracted and sufficiently distinguishing between overlapping and non-overlapping images.
 
 Several types of image features are explored for this purpose.
@@ -59,14 +50,14 @@ The distances are then compared between instances of acceptable pairs of images 
 
 When thinking of the differences between overlapping and non-overlapping images, pixel distribution was one of our first ideas.
 Pixel distribution is a very simple feature to extract: it can be done in linear time with respect to the number of pixels, and is easily distributable.
-Furthermore, it is clear that images with a large overlap will have fairly similar pixel distributions (since much of their conent is nearly identical), and non-overlapping images may not.
+Furthermore, it is clear that images with a large overlap will have fairly similar pixel distributions (since much of their conent is nearly identical), and non-overlapping images may be dissimilar.
 
 Once pixel distributions are extracted, a method for comparing the distributions is needed.
-From the field of statistics, there are a few methods for calculating \"distances\" between distributions: the higher the distance, the less similar the distributions are in some way.
+From the field of statistics, there are a few methods for calculating ``distances'' between distributions: the higher the distance, the less similar the distributions are in some way.
 
 The first distance metric we looked at is a very common method for calculating the distance between two sets of numbers: the mean-squared error or MSE.
 Essentially, the MSE is the L-2 norm of the errors or differences between the two sets of numbers.
-If we consider the first distribution to be the vector $\underline{\mathbf{p}}$ to be one distribution and the vector $\underline{\mathbf{q}}$ to be another distribution, each of length n, then the MSE is given by:
+If we consider the vector $\underline{\mathbf{p}}$ to be one distribution and the vector $\underline{\mathbf{q}}$ to be another distribution, each of length $n$, then the MSE is given by:
 \begin{equation}
 \frac{1}{n} \left( \sum_{i=1}^n{(p_i-q_i)^2} \right)^{1/2} .
 \end{equation}
@@ -131,7 +122,7 @@ It is worth noting that the Bhattacharyya distances are calculated in linear tim
 
 As stated, other features are needed in order to create a robust detection system.
 From the field of image processing, there are many image features that can be calculated quickly; our goal is to find features which can be compared and matched among consecutive images in a stream to determine if the images are overlapping by the desired amount.
-In image processing, keypoints are loosely defined as \"interesting\" parts of an image -- locations in which there is a spike or trough or unique pattern relative to the rest of the image.
+In image processing, keypoints are loosely defined as ``interesting'' parts of an image -- locations in which there is a spike or trough or unique pattern relative to the rest of the image.
 The idea with these feature descriptors is to locate a set of keypoints in each image, create descriptors for those points, and then attempt to match them between images to infer that the regions enclosed by matched descriptors are overlapping.
 
 For our feature descriptor extraction, we use corner detection to determine the keypoints used for the descriptors.
@@ -144,7 +135,7 @@ From previous research into image classification using feature descriptiors \cit
 This is a scale-invariant feature transform (SIFT) which can be implemented in real time and easily matched between images using L-2 norm differences.
 
 
-Further research reveled that the binary robust independent elementary features (BRIEF) would be better suited to our purposes.
+Further research revealed that the binary robust independent elementary features (BRIEF) would be better suited to our purposes.
 First, the BRIEF is calculated in less time than SIFT and performs similarly or better on benchmark tests.
 Furthermore, the BRIEF keypoints can be matched between images using a simple Hamming distance, rather than the L-2 norm used for SIFT, which also aids in faster processing.
 Finally, although it is considered a disadvantage generally, BRIEF is not scale-invariant like SIFT.
@@ -155,8 +146,8 @@ The BRIEF then consists of a bitstring representing the outcome of all pairwise 
 
 For a given keypoint, there exists a substring of the overall BRIEF that represents the outcome of intensity tests between the corresponding image patch and all other patches.
 As stated, matching keypoints between images can then be performed by calculating the Hamming distances between these substrings.
-A set of matches for each pair of consecutive images is generated, under the constraint that two matching keypoints cannot be more than 1/4 of the image size apart in their respective locations -- this ensures that keypoints are not matched that violate the requirement of about 75\% overlap in consecutive images.
-
+A set of matches for each pair of consecutive images is generated, under the constraint that two matching keypoints cannot be more than 1/4 of the image size apart in their respective locations.
+This ensures that keypoints are not matched that violate the requirement of about 75\% overlap in consecutive images.
 
 As a metric for comparing the BRIEFs of two images, we look at both the number of keypoints matched as well as the percentage of total keypoints matched. 
 This is slightly different than the distance metrics calculated for other features in that a higher value indicates a higher probability that the images are acceptable, but nonetheless yields a single value comparing two images.
@@ -169,11 +160,9 @@ This is similar to the keypoints and descriptors described in the previous secti
 More specifically, in our grayscale setting, blobs represent relatively bright or dark spots in an image.
 
 Blobs can be easily calculated by first convolving the target image with the Gaussian kernel:
-
-\begin{center}
-$g(x, y, t) = \frac{1}{2\pi t}e^{-\frac{x^2 + y^2}{2t}} $
-\end{center}
-
+\begin{equation*}
+g(x, y, t) = \frac{1}{2\pi t}e^{-\frac{x^2 + y^2}{2t}} .
+\end{equation*}
 Then, the Laplacian of this new image is generated, yielding strong positive values for dark spots and strong negative values for bright spots.
 The values are thresholded to detect blobs of a size relative to the size of the original Gaussian kernel.
 Multiple scales of kernels are used to detect blobs of varying sizes.
@@ -182,7 +171,9 @@ The result for a single image is a set of blob locations and their corresponding
 To obtain a distance metric for two consecutive images, the blobs for both images are calculated.
 Then, we calculate the difference in number of blobs, as well as the difference in total blob area between the two images.
 
+
 \subsection{Local Binary Patterns}
+
 Local binary patterns are a method of classifying texture within an image.
 Texture, in image processing, refers to the relative smoothness or roughness of a section of an image.
 Local binary patterns are a relatively simple way of identifying the texture of a given pixel relative to its immediate neighbors.
@@ -193,18 +184,19 @@ While simple, local binary patterns and their histograms are used extensively in
 As a distance metric, we use the same distribution distance metrics as the general pixel intensity distributions.
 
 
-
-
 \section{Learning Algorithms}
 
 As stated in the problem formulation, we approach the problem with supervised binary classification in mind.
-Classification, as opposed to regression, associates a set of features with one of a number of labels, in the binary case there are only 2 of these labels.
+Classification, as opposed to regression, associates a set of features with one of a number of labels, in the binary case there are only two of these labels.
 Supervised learning involves training a model with a set of features and their correct labels.
 The model then attempts to learn a set of parameters such that when the training data is passed through, the chosen cost function is minimzed with respect to the correct labels.
 More generally, the model attempts to adjust its own parameters to output the correct labels for the training data.
-There are a large number of supervised classification algorithms available and well-implemented in a number of languages; our goal is to identify a number of these which are fundamentally different in their structure and observe the performance of these algorithms for our task.
+There are a large number of supervised classification algorithms available and well-implemented in a number of languages.
+Our goal is to identify a number of these which are fundamentally different in their structure and observe the performance of these algorithms for our task.
+
 
 \subsection{Logistic Regression}
+
 The first among these is logistic regression: one of the most widely used classification algorithms.
 Logistic regression takes a labeled training set of feature vectors $\mathbf{x^{(i)}}$ and corresponding binary labels $\mathbf{y^{(i)}}$.
 It then finds $\theta$ to minimze the cost function:
@@ -224,7 +216,7 @@ The learning rate can also be chosen adaptively at each step so that the steps b
 The next learning algorithm selected is the multi-layer perceptron (MLP) artificial neural network (ANN).
 An ANN is a highly connected directed graphical model, in which the nodes are separated into layers.
 Each node in a given layer is connected directionally to each node in the following layer.
-In the first layer, called the input layer, the observation or set of features is input into the layer's nodes.
+In the first layer, called the input layer, the observation or set of features is input into the nodes.
 From here, the information propagates from layer to layer according to the weights of the connections between nodes in each layer.
 A weighted linear summation is calculated using these weights, which is then passed to a non-linear activation function, such as the hyperbolic tangent function.
 
@@ -238,11 +230,11 @@ This process is repeated until all hidden layers have been updated, at which poi
 
 ANNs have massive potential for performing at tasks which are difficult to define or explicity program, but often require a large amount of training data and time to become effective.
 Multi-layer perceptron networks have the advantage of being able to learn non-linear models, but suffer from a sensitivity to feature scaling and non-unique minima.
-As with other ANNs, MLPs may require a great deal of tuning of hyperparameters such as the size of and number of layers.
+As with other ANNs, MLPs may require a great deal of tuning of hyperparameters such as the size and the number of layers.
 
 The typical neural network diagram is displayed below for clarity.
 
-\begin{figure}[h]
+\begin{figure}[htb]
 \centering
 \includegraphics[scale=.50]{figures/NN}
 \caption{A general ANN}
@@ -250,27 +242,26 @@ The typical neural network diagram is displayed below for clarity.
 \end{figure}
 
 
-
 \subsection{Decision Trees}
 
 Another classification algorithm considered is the decision tree. 
 A decision tree takes a labeled training set of feature vectors $\mathbf{x^{(i)}}$ and corresponding binary labels $\mathbf{y^{(i)}}$, and finds a set of ordered thresholds to compare the features to in order to classify the vector.
-The model is visualized as a binary tree, in which you start at the root node, and propagate towards the leaf nodes which contain classification labels.
+The model is visualized as a binary tree in which one starts at the root node and propagates towards the leaf nodes, which contain classification labels.
 Each node in the tree represents a threshold or set of thresholds on a set of features, and the child node is selected based on the comparison of the given features to the thresholds.
 
 These thresholds are calculated based on the training data and a simple greedy algorithm which attempts to minimize the Gini impurity of the following layer of nodes.
 The Gini impurity of a set of training examples in a node is a measure of how likely an element of that set is to be mislabeled.
 If a set of examples contains $n$ classes, then consider $f_i$ to be the percentage of elements in that set with label $i$.
-The Gini impurity is then simply $\sum\limits_{i \not = k} f_if_k$ .
+The Gini impurity can then be expressed as $\sum_{i \not = k} f_if_k$ .
 
 Decision trees are likely the simplest classification algorithm explored in this research, but may perform well if the structure of the problem is simple as well.
 The decision tree provides a good point of comparison for the other chosen learning algorithms.
 
-
-
 % By comparing the performance of these algorithms, along with the previously mentioned peak-finding, with the image features desired, we believe we can gain a better understanding of the performance of different learning algorithms for this problem, while simultaneously creating a useful system for our intended application.
 
+
 \subsection{Support Vector Machines}
+
 Support vector machines (SVMs) are the final classification algorithm explored.
 An SVM model represents the feature vectors or examples as points in space, such that the points can be separated by a hyperplane to classify the examples as belonging to one category or another.
 If the examples are linearly seperable, then a maximum margin hyperplane is genearated by finding two parallel hyperplanes with a maximum distance between them such that the examples are still separated, and taking the parallel hyperplane directly in between these two planes.
@@ -286,7 +277,7 @@ Then, the distance between each point $x$ and a given hyperplane can be calculat
 The testing methodology for this problem has multiple steps.
 First, a subset of the dataset is chosen for testing and evaluating the individual features.
 All features and distance metrics are calculated for the pairs of consecutive images in the feature testing subset.
-For each feature, the standard deviation of the resulting distance metrics is calculated to ensure that the feature provides a sufficicent amount of information.
+For each feature, the standard deviation of the resulting distance metrics is calculated to ensure that the feature provides a sufficient amount of information.
 Next, a graph of these distance metrics is compared to a plot of the labels of the feature testing subset.
 The visual comparison of these plots is utilized to determine whether the feature provides some level of distinction between acceptable and anomalous image pairs.
 
