@@ -52,7 +52,7 @@ Next, the plot for the ratio of keypoints matched is shown:
 
 Contrary to the other metrics which are true distances, a dip can be seen in the number of matches and the percentage of keypoints matched can be seen around the anomalous images.
 The average time for BRIEF extraction for a single image is 0.244 seconds.
-Distance metric calculation is a single operation of negligible processing time.
+Distance metric calculation is a single operation of negligble processing time.
 
 \subsection{Blob Detection}
 

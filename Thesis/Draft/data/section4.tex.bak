@@ -15,7 +15,7 @@
 
 \chapter{SUMMARY AND CONCLUSIONS \label{cha:Summary}}
 
-The performance of the selected learning algorithms and features is promising.
+The performace of the selected learning algorithms and features is promising.
 All of the selected features proved to be sufficiently discriminating, with the exception of the local binary patterns.
 This is understandable, as the feature may be too local to yield much information about the images as a whole.
 Furthermore, it is unclear that the texture would necessarily change when images are out of line, or that there could not be significant texture changes in acceptable image pairs (e.g. the entrance of a body of water or a building).
@@ -23,7 +23,7 @@ Furthermore, it is unclear that the texture would necessarily change when images
 The most promising of the learning algorithms was the logistic regression model, which was able to detect 95.6\% of anomalous images with a false-positive rate of 6.7\%.
 The neural network had a very low false-positive rate of 3.8\%, but failed to identify 1/4 of the anomalous images.
 As stated in the methodology section, neural networks typically perform better with extremely large training sets, so there is potential for significant improvement with more training data.
-The SVM tuning (mainly of the soft margin hyper-parameter) was a balance between a high false-positive rate, and a relatively low detection rate.
+The SVM tuning (mainly of the soft margin hyperparameter) was a balance between a high false-positive rate, and a relatively low detection rate.
 Since in our problem it is important to have as high of a detection rate as possible, we chose to increase this at the expense of also increasing the false-positive rate.
 The decision tree served its purpose as a point of comparison, but did not perform adequately in comparison to the other models.
 It is clear that this problem is not structured in a way that is amenable to tree learning.
@@ -43,6 +43,6 @@ A small set of quickly extracted features, along with a model that is trained of
 \section{Further Study}
 Further study in this area could primarily involve the exploration of even more image features.
 As many aerial imaging systems involve multispectral or hyperspectral imagery, a third axis of data could provide opportunity for more revealing features to be extracted.
-In particular, the segmentation of an image by spectral signature could identify differences between bio-matter which appears similar in grayscale.
+In particular, the segmentation of an image by spectral signature could identify differences between biomatter which appears similar in grayscale.
 Beyond this, a full study into the design of a deep neural network trained with larger datasets could possibly yield an even more robust detection system.
 

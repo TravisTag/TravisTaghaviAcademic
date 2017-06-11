@@ -40,7 +40,7 @@ Precision agriculture has been shown to potentially increase farm profits by a s
 Recent and continuing advances in technology and data science offer increased efficiency and productivity in many areas.
 Of particular application to agriculture are unmanned aircraft systems (UAS), commonly referred to as drones.
 UAS are simultaneously becoming lighter and gaining increased flight times and carrying capacities.
-This provides enhanced opportunity for developing automated systems for surveying and irrigating agricultural areas; a UAS equipped with GPS and imaging can map a plot of land, providing information on biomass, crop growth and quality, weed prevalence, etc.
+This provides enhanced opportunity for developing automated systems for surveying and irrigating agricultural areas; a UAS equipped with GPS and imaging can map a plot of land, providing information on biomass, crop growth and quality, weed prevalance, etc.
 Research into increased efficiency and productivity of these systems is vital to the correlated increased net productivity of irrigated farming.
 As stated, we believe improvement to precision agriculture has the potential to contribute to alleviation of the current and forecasted water scarcity.
 
@@ -79,7 +79,7 @@ It is the performance of this image stitching that we first address.
 For optimal performance in image stitching, both in terms of time taken and output quality, the camera should be pointed directly towards the ground and generate the desired amount of overlap between adjacent images.
 However, the limits of current technology mean that the imaging module on the UAV is not always pointed directly towards the ground when an image is taken.
 Turbulence, swinging, and swaying of the aircraft is likely to result in images that are not pointed directly at the ground, and hence may also not contain the desired amount of overlap.
-Such images will be referred to as anomalous, and can result in large increases in post-processing time, as well as sub-optimal output from mosaicking.
+Such images will be referred to as anomalous, and can result in large increases in post-processing time, as well as suboptimal output from mosaicking.
 
 These anomalous images are difficult for the image stitching program to handle.
 In general, image stitching requires predictable overlap between images, as well as nearly identical regions of overlap, in order to locate unique features that can be matched to determine where overlap exists.
