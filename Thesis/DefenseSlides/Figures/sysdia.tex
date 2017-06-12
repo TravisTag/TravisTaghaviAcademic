@@ -1,0 +1,33 @@
+% Define block styles
+\tikzstyle{decision} = [diamond, draw, fill=blue!20, 
+    text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt]
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
+    text width=4em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{wideblock} = [rectangle, draw, fill=blue!20, 
+    text width=7em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+    minimum height=2em]
+    
+\begin{tikzpicture}[node distance = 2.3cm, auto]
+    % Place nodes
+    \node [block] (init) {Image stream};
+    \node [block, right of=init] (image1) {Shift register};
+    \node [block, right of=image1] (image2) {Shift register};
+    \node [block, below of=image1] (feature1) {Extract features};
+    \node [block, below of=image2] (feature2) {Extract features};
+    \node [wideblock, below of=feature2] (mlfeature) {Calculate classification features};
+    \node [block, below of=mlfeature] (model) {Learning model};
+    \node [wideblock, below of=model] (classification) {Classification};
+
+    % Draw edges
+    \path [line] (init) -- (image1);
+    \path [line] (image1) -- (image2);
+    \path [line] (image1) -- (feature1);
+    \path [line] (image2) -- (feature2);
+    \path [line] (feature1) -- (mlfeature);
+    \path [line] (feature2) -- (mlfeature);
+    \path [line] (mlfeature) -- (model);
+    \path [line] (model) -- (classification);
+
+\end{tikzpicture}
