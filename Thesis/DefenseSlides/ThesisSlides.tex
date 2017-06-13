@@ -108,6 +108,9 @@ This material is based, in part, upon work supported by the TEES-AgriLife Center
 \frametitle{Image Mosaicking}
 \begin{itemize}
   \item The process of stitching together a series of images into a single image
+  \begin{itemize}
+    \item Simple example: panoramic picture
+  \end{itemize}
   \item Complex programs such as Pix4D and OpenDroneMap perform this in post, generally on a specialized processing computer
   \item Utilizes GPS coordinates and calculations on image features to determine where to stitch images
   \item For optimal performance, requirements on image scale and necessary overlap between images
@@ -166,7 +169,7 @@ This material is based, in part, upon work supported by the TEES-AgriLife Center
 \end{frame}
 
 
-\begin{frame}
+\begin{frame} [noframenumbering]
 \frametitle{Acceptable Image Stream}
 \begin{columns}
 \column{0.001\textwidth}
@@ -178,7 +181,7 @@ This material is based, in part, upon work supported by the TEES-AgriLife Center
 \end{frame}
 
 
-\begin{frame}
+\begin{frame} [noframenumbering]
 \frametitle{Acceptable Image Stream}
 \begin{columns}
 \column{0.001\textwidth}
@@ -190,7 +193,7 @@ This material is based, in part, upon work supported by the TEES-AgriLife Center
 \end{frame}
 
 
-\begin{frame}
+\begin{frame} [noframenumbering]
 \frametitle{Acceptable Image Stream}
 \begin{columns}
 \column{0.001\textwidth}
@@ -202,7 +205,7 @@ This material is based, in part, upon work supported by the TEES-AgriLife Center
 \end{frame}
 
 
-\begin{frame}
+\begin{frame} [noframenumbering]
 \frametitle{Acceptable Image Stream}
 \begin{columns}
 \column{0.001\textwidth}
@@ -226,7 +229,7 @@ This material is based, in part, upon work supported by the TEES-AgriLife Center
 \end{frame}
 
 
-\begin{frame}
+\begin{frame} [noframenumbering]
 \frametitle{Anomalous Image Stream}
 \begin{columns}
 \column{0.001\textwidth}
@@ -238,7 +241,7 @@ This material is based, in part, upon work supported by the TEES-AgriLife Center
 \end{frame}
 
 
-\begin{frame}
+\begin{frame} [noframenumbering]
 \frametitle{Anomalous Image Stream}
 \begin{columns}
 \column{0.001\textwidth}
@@ -250,7 +253,7 @@ This material is based, in part, upon work supported by the TEES-AgriLife Center
 \end{frame}
 
 
-\begin{frame}
+\begin{frame} [noframenumbering]
 \frametitle{Anomalous Image Stream}
 \begin{columns}
 \column{0.001\textwidth}
@@ -262,7 +265,7 @@ This material is based, in part, upon work supported by the TEES-AgriLife Center
 \end{frame}
 
 
-\begin{frame}
+\begin{frame} [noframenumbering]
 \frametitle{Anomalous Image Stream}
 \begin{columns}
 \column{0.001\textwidth}
@@ -366,6 +369,44 @@ This material is based, in part, upon work supported by the TEES-AgriLife Center
 \end{itemize}
 \end{frame}
 
+
+\begin{frame}
+\frametitle{MSE Plot}
+\begin{columns}
+\column{0.001\textwidth}
+\column{0.999\textwidth}
+\begin{centering}
+\includegraphics[width = 10cm]{Figures/608MSEplot}
+\end{centering}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Bhattacharyya Distance Plot}
+\begin{columns}
+\column{0.001\textwidth}
+\column{0.999\textwidth}
+\begin{centering}
+\includegraphics[width = 10cm]{Figures/608BDplot}
+\end{centering}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Earth Mover's Distance Plot}
+\begin{columns}
+\column{0.001\textwidth}
+\column{0.999\textwidth}
+\begin{centering}
+\includegraphics[width = 10cm]{Figures/608EMDplot}
+\end{centering}
+\end{columns}
+\end{frame}
+
+
+
 \begin{frame}
 \frametitle{BRIEF Descriptors}
 \begin{itemize}
@@ -387,6 +428,7 @@ This material is based, in part, upon work supported by the TEES-AgriLife Center
 \end{columns}
   \begin{itemize}
     \item Maximum distance between matched keypoints set to 25\% of image size
+    \item Histogram equalization
     \item Number of total matches
     \item Ratio of matches to total keypoints
   \end{itemize}
@@ -510,14 +552,36 @@ This material is based, in part, upon work supported by the TEES-AgriLife Center
 \end{itemize}
 \end{frame}
 
+
+\begin{frame}
+\frametitle{Implementation}
+\begin{columns}
+\column{0.49\textwidth}
+\begin{itemize}
+  \item Python
+  \begin{itemize}
+    \item NumPy, SciPy, Pandas
+  \end{itemize}
+  \item Scikit-Image
+  \item Scikit-Learn
+\end{itemize}
+\column{0.47\textwidth}
+\includegraphics[width = 5cm]{Figures/scikit}
+\end{columns}
+\end{frame}
+
+
 \begin{frame}
 \frametitle{Testing Methodology}
 \begin{itemize}
   \item Datasets selected and labeled by manually identifying anomalous images
+  \begin{itemize}
+    \item $\approx$ 5000 images total, $\approx$ 5\% anomalous
+  \end{itemize}
   \item Feature vectors generated and associated with label vectors for training and testing of models
   \item Approximately 80\% of data used for training and 20\% used for testing
   \begin{itemize}
-    \item Data randomly sampled to repeat training and testing 5 times
+    \item Training and testing sets shuffled and retested to obtain average performance
   \end{itemize}
 \end{itemize}
 \end{frame}
