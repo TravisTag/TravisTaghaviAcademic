@@ -1,0 +1,43 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                           SECTION IV
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\chapter{SUMMARY AND CONCLUSIONS \label{cha:Summary}}
+
+The performance of the selected learning algorithms and features is promising.
+All of the selected features proved to be sufficiently discriminating, with the exception of the local binary patterns.
+This is understandable, as the feature may be too local to yield much information about the images as a whole.
+Furthermore, it is unclear that the texture would necessarily change when images are out of line, or that there could not be significant texture changes in acceptable image pairs, e.g., the entrance of a body of water or a building.
+
+The most promising of the learning algorithms was the logistic regression model, which was able to detect 95.6\% of anomalous images with a false-positive rate of 6.7\%.
+The neural network had a very low false-positive rate of 3.8\%, but failed to identify 1/4 of the anomalous images.
+As stated in the methodology section, neural networks typically perform better with extremely large training sets, so there is potential for significant improvement with more training data.
+The SVM tuning (mainly of the soft margin hyper-parameter) was a balance between a high false-positive rate, and a relatively low detection rate.
+Since in our problem it is important to have as high of a detection rate as possible, we chose to increase this at the expense of also increasing the false-positive rate.
+The decision tree served its purpose as a point of comparison, but did not perform adequately in comparison to the other models.
+It is clear that this problem is not structured in a way that is amenable to tree learning.
+
+With respect to the requirement to have the system run in pseudo real-time, the results are also acceptable, with room for improvement.
+All used features are able to be calculated on the order of one second or less, with the total feature vector calculation averaging 1.35 seconds utilizing processing power similar to that of the onboard data processing units.
+The imaging systems utilizing in capturing our training and testing data performed imaging at a rate of 40-80 images per minute.
+The extraction of all features has the potential to be parallelized for performance increase.
+Since the model is not trained onboard the UAV, the model training time is not under any restrictions.
+Passing a new feature vector into any of the learning models amounts to a series of simple comparisons or matrix multiplications, the processing time of which is negligible.
+
+
+Overall, the performance of the system, in particular the logistic regression model, indicates that machine learning is a viable option for the detection of anomalous images in aerial image streams.
+A small set of quickly extracted features, along with a model that is trained offline and ported to the onboard computer of a UAV is shown to have potential to alleviate the issue of unchecked anomalous images.
+
+
+\section{Further Study}
+Further study in this area could primarily involve the exploration of even more image features.
+As many aerial imaging systems involve multispectral or hyperspectral imagery, a third axis of data could provide opportunity for more revealing 3-dimensional features to be extracted.
+In particular, the segmentation of an image by spectral signature could identify differences between bio-matter which appear similar in grayscale.
+Beyond this, a full study into the design of a deep neural network trained with larger datasets could potentially yield an even more robust detection system.
+
+Another direction of study would involve extending the classification of anomalies beyond binary.
+Anomalies could be classified according to their nature (swinging in various directions, spinning, blur, etc.), or even quantified by how anomalous they are.
+This would lead to a multi-class detection system in the case of non-binary classes, and a regression problem in the case of quantified anomalies.
+

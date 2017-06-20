@@ -1,0 +1,32 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                           ABSTRACT 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter*{ABSTRACT}
+\addcontentsline{toc}{chapter}{ABSTRACT}
+
+\pagestyle{plain} % No headers, just page numbers
+\pagenumbering{roman} % Roman numerals
+\setcounter{page}{2}
+
+\indent This thesis work is an exploration into the application of machine learning to a current problem relating to streams of aerial images, with application to the imaging systems within the Texas A\&M GEOSAT group and to the Texas A\&M AgriLife Extension Service.
+The streams of images referred to are taken by a unmanned aerial vehicle (UAV) over some space of land.
+
+Our problem relates to flight inconsistencies in the UAV.
+In an ideal scenario, our UAV captures a set of images from a specified height, pointed normally at the ground, with a predetermined amount of overlap between images.
+However, due to inconsistencies inherent in most flights, the UAV will occasionally tilt or swing in such a way that the images captured are not in line with adjacent images, i.e., they do not have the required amount of overlap, and their information may be blurred.
+This creates a problem when attempting image stitching afterwards, as such anomalous images will be irreconcilable with adjacent images.
+A prime goal then consists of designing a system which can, in pseudo-real-time, detect images which are out of line, through the use of feature extraction and machine learning, so that they can be discarded and possibly recaptured.
+
+Our research compares and evaluates a number of image features and distance metrics, along with supervised classification learning algorithms, on the basis of their performance in this task.
+After feature evaluation, pixel intensity distribution, binary robust independent elementary features (BRIEF), and blob detection were seleceted as image features.
+% These features are compared by a number of metrics to create a set of single-valued features for classification.
+The classification models chosen include logistic regression, neural networks, decision trees, and support vector machines (SVM).
+
+After training and testing, the logistic regression model yields the highest performance, with a detection rate of 95.6\% and a false alarm rate of 7.7\%, making this a viable option for this task.
+Neural networks and SVM yield lower levels of performance in detection and false alarm rates, respectively.
+Decision trees offer a very low detection rate of 11.9\%, and are thus concluded to not be an ideal model for this task.
+
+
+\pagebreak{}
+
